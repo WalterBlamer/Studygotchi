@@ -4,7 +4,9 @@ import session from 'express-session';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const PostgresStore = connectPgSimple(session);
-
+console.log(
+  `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+);
 // Store sessions in PostgreSQL
 const sessionStorage = new PostgresStore({
   createTableIfMissing: true,

@@ -1,0 +1,22 @@
+info:
+  name: CreateUser-Valid
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:9812/users
+  body:
+    type: json
+    data: |-
+      {
+        "email": "wtb@gmail.com",
+        "password": "myPassword"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
