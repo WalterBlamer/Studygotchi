@@ -49,8 +49,8 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
     await req.session.clearSession();
 
-    //req.session.authenticatedUser = { userId: user.userId, email: user.email };
-    //req.session.isLoggedIn = true;
+    req.session.authenticatedUser = { userId: user.userId, email: user.email };
+    req.session.isLoggedIn = true;
 
     res.sendStatus(200);
   } catch (err) {
@@ -59,21 +59,21 @@ async function logIn(req: Request, res: Response): Promise<void> {
   }
 }
 
-// async function getUser(req: Request, res: Response): Promise<void> {
-//   const { email } = req.params;
-//   const user = await getUserByEmail(email);
+async function getUser(req: Request, res: Response): Promise<void> {
+  const { email } = req.params as { email: string }; // make sure it's a string
+  const user = await getUserByEmail(email);
 
-//   if (!user) {
-//     res.status(404).json({ error: 'User not found' });
-//     return;
-//   }
+  if (!user) {
+    res.status(404).json({ error: 'User not found' });
+    return;
+  }
 
-//   res.json({ user });
-// }
+  res.json({ user });
+}
 
 async function logOut(req: Request, res: Response): Promise<void> {
   await req.session.clearSession();
   res.sendStatus(204);
 }
 
-export { createUser, logIn, logOut };
+export { createUser, getUser, logIn, logOut };

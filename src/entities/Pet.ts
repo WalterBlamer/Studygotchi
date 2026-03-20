@@ -20,10 +20,10 @@ export class Pet {
   @Column()
   speciesId: number;
 
-  @Column()
+  @Column({ default: 1 })
   outfitId: number;
 
-  @Column()
+  @Column({ default: 1 })
   colorSchemeId: number;
 
   @Column({ default: 50 })

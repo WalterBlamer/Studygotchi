@@ -1,7 +1,7 @@
-import './config.js'; // do not remove this line
 import express, { Express } from 'express';
+import './config.js'; // do not remove this line
+import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
 import { sessionMiddleware } from './sessionConfig.js';
-import { createUser, logIn, logOut } from './controllers/UserController.js';
 
 const app: Express = express();
 
@@ -16,6 +16,7 @@ app.use(express.static('public', { extensions: ['html'] }));
 
 // -- Routes --------------------------------------------------
 // Register your routes below this line
+app.get('/users', getUser);
 app.post('/users', createUser);
 app.post('/login', logIn);
 app.delete('/sessions', logOut);
