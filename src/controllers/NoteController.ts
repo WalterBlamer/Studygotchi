@@ -35,7 +35,7 @@ async function getNotes(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getByTitle(req: Request, res: Response): Promise<void> {
+async function getNotesByTitle(req: Request, res: Response): Promise<void> {
   const title = req.params.title;
 
   if (!title) {
@@ -44,7 +44,7 @@ async function getByTitle(req: Request, res: Response): Promise<void> {
   }
 
   try {
-    const note = await getByTitle(title);
+    const note = await getNotesByTitle(title);
     if (!note) {
       res.status(404).json({ errors: "Note not found." });
       return;
@@ -57,4 +57,4 @@ async function getByTitle(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createNote, getNotes, getByTitle };
+export { createNote, getNotes, getNotesByTitle };
