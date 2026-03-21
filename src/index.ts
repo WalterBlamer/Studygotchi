@@ -1,6 +1,8 @@
 import express, { Express } from 'express';
 import './config.js'; // do not remove this line
 import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
+import { createPet, getPet } from './controllers/PetController.js';
+// import { createNote, getNotes, getByTitle } from './controllers/NoteController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -16,10 +18,12 @@ app.use(express.static('public', { extensions: ['html'] }));
 
 // -- Routes --------------------------------------------------
 // Register your routes below this line
-app.get('/users', getUser);
 app.post('/users', createUser);
 app.post('/login', logIn);
+app.get('/users', getUser);
 app.delete('/sessions', logOut);
+app.post('/pets', createPet);
+app.get('/pets:petId', getPet);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
