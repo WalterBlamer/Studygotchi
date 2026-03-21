@@ -1,5 +1,5 @@
 import { AppDataSource } from "../dataSource.js";
-import { Notes } from "../entities/Note.js";
+import { Note } from "../entities/Note.js";
 
 const noteRepository = AppDataSource.getRepository(Note);
 
@@ -12,10 +12,10 @@ async function getNoteByTitle(title: string): Promise<Note | null> {
 }
 
 async function createNote(title: string, text: string): Promise<Note> {
-  const newNote = new Notes();
+  const newNote = new Note();
   newNote.title = title;
   newNote.text = text;
-  return await noteRepository.save(note);
+  return await noteRepository.save(newNote);
 }
 
 export { getAllNotes, getNoteByTitle, createNote };
