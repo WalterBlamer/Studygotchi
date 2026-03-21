@@ -1,7 +1,17 @@
-import express, { Express } from 'express';
-import './config.js'; // do not remove this line
-import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
-import { sessionMiddleware } from './sessionConfig.js';
+import express, { Express } from "express";
+import "./config.js"; // do not remove this line
+import {
+  createUser,
+  getUser,
+  logIn,
+  logOut,
+} from "./controllers/UserController.js";
+import { sessionMiddleware } from "./sessionConfig.js";
+import {
+  createNote,
+  getNotes,
+  getNotesByTitle,
+} from "./controllers/NoteController.js";
 
 const app: Express = express();
 
@@ -12,14 +22,19 @@ app.use(express.urlencoded({ extended: false })); // Setup urlencoded (HTML Form
 // Setup static resource file middleware
 // This allows the client to access any file inside the `public` directory
 // Only put file that you actually want to be publicly accessibly in the `public` folder
-app.use(express.static('public', { extensions: ['html'] }));
+app.use(express.static("public", { extensions: ["html"] }));
 
 // -- Routes --------------------------------------------------
 // Register your routes below this line
-app.get('/users', getUser);
-app.post('/users', createUser);
-app.post('/login', logIn);
-app.delete('/sessions', logOut);
+app.get("/users", getUser);
+app.post("/users", createUser);
+app.post("/login", logIn);
+app.delete("/sessions", logOut);
+
+//Note routes
+app.get("/notes", getNotes);
+app.get("/notes", getNotesByTitle);
+app.post("/notes", createNote);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
