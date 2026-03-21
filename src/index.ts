@@ -1,9 +1,8 @@
 import express, { Express } from 'express';
 import './config.js'; // do not remove this line
-import { createNote, getNotes, getNotesByTitle } from './controllers/NoteController.js';
-import { createPet, getPet } from './controllers/PetController.js';
 import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
-// import { createNote, getNotes, getByTitle } from './controllers/NoteController.js';
+import { createPet, getPet } from './controllers/PetController.js';
+import { createNote, getNotes, getNotesByTitle } from './controllers/NoteController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
