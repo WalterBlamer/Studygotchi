@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import { CreateNoteSchema } from "../validators/NoteValidator.js";
 import { NoteModel } from "../models/NoteModel.js";
+import {
+  createNote,
+  getAllNotes,
+  getNoteByTitle,
+} from "../models/NoteModel.js";
 import { parseDatabaseError } from "../utils/db-utils.js";
 
 async function createNote(req: Request, res: Response): Promise<void> {
@@ -14,7 +19,7 @@ async function createNote(req: Request, res: Response): Promise<void> {
   const { title, text } = result.data;
 
   try {
-    const newNote = await addNote(title, text);
+    const newNote = await createNote(title, text);
     console.log(newNote);
     res.sendStatus(201).json(newNote);
   } catch (err) {
@@ -24,9 +29,9 @@ async function createNote(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getNotes(req: Request, res: Response): Promise<void> {
+async function getAllNotes(req: Request, res: Response): Promise<void> {
   try {
-    const notes = await getNotes();
+    const notes = await getAllNotes();
     res.sendStatus(201).json(notes);
   } catch (err) {
     console.error(err);
@@ -57,4 +62,4 @@ async function getNotesByTitle(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createNote, getNotes, getNotesByTitle };
+export { createNote, getAllNotes, getNotesByTitle };
