@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addPet } from '../models/PetModel.js';
+import { addPet, getPetById } from '../models/PetModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { CreatePetSchema } from '../validators/PetValidator.js';
 
@@ -23,4 +23,21 @@ async function createPet(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createPet };
+async function getPet(req: Request, res: Response): Promise<void> {
+  const { petId } = req.params as { petId: string };
+
+  try {
+    const pet = await getPetById(petId);
+    if (!pet) {
+      res.sendStatus(404);
+      return;
+    }
+    res.json({ pet });
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+  }
+}
+
+export { createPet, getPet };

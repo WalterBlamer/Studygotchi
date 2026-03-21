@@ -14,6 +14,9 @@ async function addPet(
   newPet.outfitId = outfitId;
   newPet.colorSchemeId = colorSchemeId;
   newPet.speciesId = speciesId;
+  // petId generated automatically by @BeforeInsert
+  // happiness defaults to 50
+  // createdAt defaults to timestamptz
 
   return petRepository.save(newPet);
 }
