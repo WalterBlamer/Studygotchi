@@ -9,6 +9,7 @@ export class Pet {
   @BeforeInsert()
   generateId(): void {
     this.petId = uuidv7();
+    this.createdAt = new Date();
   }
 
   @Column()

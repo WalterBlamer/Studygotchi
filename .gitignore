@@ -105,3 +105,6 @@ dist
 
 .DS_Store
 *.sqlite
+ca-certificate.crt
+src/dataSource.ts
+src/sessionConfig.ts

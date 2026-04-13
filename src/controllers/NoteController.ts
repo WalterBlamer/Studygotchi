@@ -1,12 +1,7 @@
-import { Request, Response } from "express";
-import { CreateNoteSchema } from "../validators/NoteValidator.js";
-import { NoteModel } from "../models/NoteModel.js";
-import {
-  createNote,
-  getAllNotes,
-  getNoteByTitle,
-} from "../models/NoteModel.js";
-import { parseDatabaseError } from "../utils/db-utils.js";
+import { Request, Response } from 'express';
+import { createNoteModel, getAllNotesModel, getNoteByTitleModel } from '../models/NoteModel.js';
+import { parseDatabaseError } from '../utils/db-utils.js';
+import { CreateNoteSchema } from '../validators/NoteValidator.js';
 
 async function createNote(req: Request, res: Response): Promise<void> {
   const result = CreateNoteSchema.safeParse(req.body);
@@ -19,9 +14,9 @@ async function createNote(req: Request, res: Response): Promise<void> {
   const { title, text } = result.data;
 
   try {
-    const newNote = await createNote(title, text);
+    const newNote = await createNoteModel(title, text);
     console.log(newNote);
-    res.sendStatus(201).json(newNote);
+    res.status(201).json(newNote);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -31,8 +26,8 @@ async function createNote(req: Request, res: Response): Promise<void> {
 
 async function getAllNotes(req: Request, res: Response): Promise<void> {
   try {
-    const notes = await getAllNotes();
-    res.sendStatus(201).json(notes);
+    const notes = await getAllNotesModel();
+    res.status(201).json(notes);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -40,21 +35,21 @@ async function getAllNotes(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getNotesByTitle(req: Request, res: Response): Promise<void> {
-  const title = req.params.title;
+async function getNoteByTitle(req: Request, res: Response): Promise<void> {
+  const { title } = req.params as { title: string };
 
   if (!title) {
-    res.status(400).json({ errors: "Note title required." });
+    res.status(400).json({ errors: 'Note title required.' });
     return;
   }
 
   try {
-    const note = await getNotesByTitle(title);
+    const note = await getNoteByTitleModel(title);
     if (!note) {
-      res.status(404).json({ errors: "Note not found." });
+      res.status(404).json({ errors: 'Note not found.' });
       return;
     }
-    res.sendStatus(200).json(note);
+    res.status(200).json(note);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -62,4 +57,4 @@ async function getNotesByTitle(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createNote, getAllNotes, getNotesByTitle };
+export { createNote, getAllNotes, getNoteByTitle };

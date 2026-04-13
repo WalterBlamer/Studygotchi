@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import './config.js'; // do not remove this line
 import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
 import { createPet, getPet } from './controllers/PetController.js';
-import { createNote, getNotes, getNotesByTitle } from './controllers/NoteController.js';
+import { createNote, getAllNotes, getNoteByTitle } from './controllers/NoteController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -24,10 +24,10 @@ app.get('/users', getUser);
 app.delete('/sessions', logOut);
 // Pet routes
 app.post('/pets', createPet);
-app.get('/pets:petId', getPet);
+app.get('/pets/:petId', getPet);
 // Note routes
-app.get('/notes', getNotes);
-app.get('/notes', getNotesByTitle);
+app.get('/notes', getAllNotes);
+app.get('/notes/:title', getNoteByTitle);
 app.post('/notes', createNote);
 
 app.listen(process.env.PORT, () => {
