@@ -15,7 +15,7 @@ export class Pet {
   @Column()
   petName: string;
 
-  @Column({ type: 'timestamptz' }) // stores current date
+  @Column({ type: 'timestamptz' })
   createdAt: Date;
 
   @Column()

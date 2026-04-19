@@ -27,7 +27,7 @@ async function createNote(req: Request, res: Response): Promise<void> {
 async function getAllNotes(req: Request, res: Response): Promise<void> {
   try {
     const notes = await getAllNotesModel();
-    res.status(201).json(notes);
+    res.status(200).json(notes);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
