@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
-import { createNoteModel, getAllNotesModel, getNoteByTitleModel } from '../models/NoteModel.js';
+import {
+  createNoteModel,
+  getNoteByIdModel,
+  getNoteByTitleModel,
+  getNotesModel,
+  updateNoteModel,
+} from '../models/NoteModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
-import { CreateNoteSchema } from '../validators/NoteValidator.js';
+import { CreateNoteSchema, EditNoteSchema } from '../validators/NoteValidator.js';
 
 async function createNote(req: Request, res: Response): Promise<void> {
   const result = CreateNoteSchema.safeParse(req.body);
@@ -24,9 +30,9 @@ async function createNote(req: Request, res: Response): Promise<void> {
   }
 }
 
-async function getAllNotes(req: Request, res: Response): Promise<void> {
+async function getNotes(req: Request, res: Response): Promise<void> {
   try {
-    const notes = await getAllNotesModel();
+    const notes = await getNotesModel();
     res.status(200).json(notes);
   } catch (err) {
     console.error(err);
@@ -57,4 +63,30 @@ async function getNoteByTitle(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createNote, getAllNotes, getNoteByTitle };
+async function updateNote(req: Request, res: Response): Promise<void> {
+  const { noteId } = req.params as { noteId: string };
+
+  const result = EditNoteSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json(result.error.flatten());
+    return;
+  }
+
+  try {
+    const note = await getNoteByIdModel(noteId);
+    if (!note) {
+      res.sendStatus(404);
+      return;
+    }
+
+    // reminder: updateNoteModel returns the updated note
+    const updatedNote = await updateNoteModel(noteId, result.data);
+    res.status(200).json(updatedNote);
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+  }
+}
+
+export { createNote, getNoteByTitle, getNotes, updateNote };
