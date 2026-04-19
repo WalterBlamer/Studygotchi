@@ -2,7 +2,7 @@ import argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { addUser, getUserByEmail } from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
-import { RegistrationSchema } from '../validators/RegistrationValidator.js';
+import { RegistrationSchema } from '../validators/UserValidator.js';
 
 async function createUser(req: Request, res: Response): Promise<void> {
   const result = RegistrationSchema.safeParse(req.body);
@@ -75,9 +75,31 @@ async function getUser(req: Request, res: Response): Promise<void> {
   res.json({ user });
 }
 
+// For viewing your own profile
+async function getUserProfile(req: Request, res: Response): Promise<void> {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const { email } = req.session.authenticatedUser;
+
+  try {
+    const user = await getUserByEmail(email);
+    if (!user) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+}
+
 async function logOut(req: Request, res: Response): Promise<void> {
   await req.session.clearSession();
   res.sendStatus(204);
 }
 
-export { createUser, getUser, logIn, logOut };
+export { createUser, getUser, logIn, logOut, getUserProfile };

@@ -1,8 +1,14 @@
 import express, { Express } from 'express';
 import './config.js'; // do not remove this line
-import { createUser, getUser, logIn, logOut } from './controllers/UserController.js';
-import { createPet, getPet } from './controllers/PetController.js';
 import { createNote, getAllNotes, getNoteByTitle } from './controllers/NoteController.js';
+import { createPet, getPet } from './controllers/PetController.js';
+import {
+  createUser,
+  getUser,
+  getUserProfile,
+  logIn,
+  logOut,
+} from './controllers/UserController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -20,7 +26,8 @@ app.use(express.static('public', { extensions: ['html'] }));
 // Register your routes below this line
 app.post('/users', createUser);
 app.post('/login', logIn);
-app.get('/users', getUser);
+app.get('/users/:email', getUser);
+app.get('/users/profile', getUserProfile);
 app.delete('/sessions', logOut);
 // Pet routes
 app.post('/pets', createPet);
