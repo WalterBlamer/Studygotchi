@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import {
   createNoteModel,
   getNoteByIdModel,
-  getNoteByTitleModel,
   getNotesModel,
   updateNoteModel,
 } from '../models/NoteModel.js';
+import { getUserByEmail } from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { CreateNoteSchema, EditNoteSchema } from '../validators/NoteValidator.js';
 
@@ -18,9 +18,16 @@ async function createNote(req: Request, res: Response): Promise<void> {
   }
 
   const { title, text } = result.data;
+  const { email } = req.session.authenticatedUser;
 
   try {
-    const newNote = await createNoteModel(title, text);
+    const user = await getUserByEmail(email);
+    if (!user) {
+      res.sendStatus(404);
+      return;
+    }
+
+    const newNote = await createNoteModel(title, text, user);
     console.log(newNote);
     res.status(201).json(newNote);
   } catch (err) {
@@ -31,31 +38,11 @@ async function createNote(req: Request, res: Response): Promise<void> {
 }
 
 async function getNotes(req: Request, res: Response): Promise<void> {
+  const { userId } = req.session.authenticatedUser;
+
   try {
-    const notes = await getNotesModel();
+    const notes = await getNotesModel(userId);
     res.status(200).json(notes);
-  } catch (err) {
-    console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.status(500).json(databaseErrorMessage);
-  }
-}
-
-async function getNoteByTitle(req: Request, res: Response): Promise<void> {
-  const { title } = req.params as { title: string };
-
-  if (!title) {
-    res.status(400).json({ errors: 'Note title required.' });
-    return;
-  }
-
-  try {
-    const note = await getNoteByTitleModel(title);
-    if (!note) {
-      res.status(404).json({ errors: 'Note not found.' });
-      return;
-    }
-    res.status(200).json(note);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -79,6 +66,12 @@ async function updateNote(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    // check if user owns the note before updating it
+    if (note.user.userId !== req.session.authenticatedUser.userId) {
+      res.sendStatus(403);
+      return;
+    }
+
     // reminder: updateNoteModel returns the updated note
     const updatedNote = await updateNoteModel(noteId, result.data);
     res.status(200).json(updatedNote);
@@ -89,4 +82,4 @@ async function updateNote(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createNote, getNoteByTitle, getNotes, updateNote };
+export { createNote, getNotes, updateNote };

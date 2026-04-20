@@ -11,11 +11,11 @@ async function createUser(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { email, password } = result.data;
+  const { email, password, displayName } = result.data;
 
   try {
     const passwordHash = await argon2.hash(password);
-    const newUser = await addUser(email, passwordHash);
+    const newUser = await addUser(email, passwordHash, displayName);
     console.log(newUser);
     res.sendStatus(201);
   } catch (err) {

@@ -1,15 +1,10 @@
 import express, { Express } from 'express';
+import { requireAuth } from './authMiddleware.js';
 import './config.js'; // do not remove this line
-import { sessionMiddleware } from './sessionConfig.js';
-import {
-  createUser,
-  getUser,
-  getUserProfile,
-  logIn,
-  logOut,
-} from './controllers/UserController.js';
+import { createNote, getNotes, updateNote } from './controllers/NoteController.js';
 import { createPet, getPet } from './controllers/PetController.js';
-import { createNote, getNoteByTitle, getNotes, updateNote } from './controllers/NoteController.js';
+import { createUser, getUserProfile, logIn, logOut } from './controllers/UserController.js';
+import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
 
@@ -24,17 +19,21 @@ app.use(express.static('public', { extensions: ['html'] }));
 
 // -- Routes --------------------------------------------------
 // Register your routes below this line
+// public routes
 app.post('/users', createUser);
 app.post('/login', logIn);
-app.get('/users/:email', getUser);
-app.get('/users/profile', getUserProfile);
 app.delete('/sessions', logOut);
-// Pet routes
+
+// protected routes
+app.use('/users', requireAuth); // all /users routes after this need auth
+app.get('/users/profile', getUserProfile);
+
+app.use('/pets', requireAuth);
 app.post('/pets', createPet);
 app.get('/pets/:petId', getPet);
-// Note routes
+
+app.use('/notes', requireAuth);
 app.get('/notes', getNotes);
-app.get('/notes/:title', getNoteByTitle);
 app.post('/notes', createNote);
 app.patch('/notes/:noteId', updateNote);
 
