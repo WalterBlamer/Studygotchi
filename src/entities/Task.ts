@@ -1,5 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
+import { User } from './User.js';
 
 @Entity()
 export class Task {
@@ -16,18 +17,18 @@ export class Task {
   @Column()
   title: string;
 
-  @Column({ type: 'timestamptz' }) // stores current date
+  @Column({ type: 'timestamptz' })
   createdAt: Date;
 
-  @Column({ type: 'timestamptz' }) // stores current date
+  @Column({ type: 'timestamptz' })
   updatedAt: Date;
-
-  @Column({ type: 'timestamptz' }) // stores current date
-  dueDate: Date;
 
   @Column({ default: false })
   completed: boolean;
 
   @Column()
   text: string;
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  user: Relation<User>;
 }

@@ -34,4 +34,7 @@ export class User {
 
   @OneToMany(() => Note, (note) => note.user)
   notes: Relation<Note>[];
+
+  @OneToMany(() => Note, (note) => note.user)
+  tasks: Relation<Note>[];
 }
