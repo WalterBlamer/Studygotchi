@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn, Relation } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import { Note } from './Note.js';
+import { Task } from './Task.js';
 
 @Entity()
 export class User {
@@ -35,6 +36,6 @@ export class User {
   @OneToMany(() => Note, (note) => note.user)
   notes: Relation<Note>[];
 
-  @OneToMany(() => Note, (note) => note.user)
-  tasks: Relation<Note>[];
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Relation<Task>[];
 }

@@ -28,11 +28,11 @@ async function getTaskByIdModel(taskId: string): Promise<Task | null> {
 }
 
 async function updateTaskModel(
-  taskId: string,
-  updates: Partial<Pick<Task, 'title' | 'text' | 'completed'>>, // updates: title, text, completed are optional
+  taskId: string, // updates: title, text, completed are optional
 ): Promise<Task | null> {
-  await taskRepository.update({ taskId }, { ...updates, updatedAt: new Date() }); // ... spread op
-  return getTaskByIdModel(taskId); // return the now updated Note to send as response
+  const task = await getTaskByIdModel(taskId);
+  await taskRepository.update({ taskId }, { completed: !task.completed, updatedAt: new Date() });
+  return getTaskByIdModel(taskId); // return the now updated Task to send as response
 }
 
 export { createTaskModel, getAllTasksModel, getTaskByIdModel, updateTaskModel };

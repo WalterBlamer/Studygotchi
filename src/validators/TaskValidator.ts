@@ -8,6 +8,7 @@ export const CreateTaskSchema = z.object({
 export const EditTaskSchema = z.object({
   title: z.string().min(1).max(30).optional(),
   text: z.string().min(1).max(160).optional(),
+  completed: z.boolean().optional(),
 });
 
 export type TaskBody = z.infer<typeof CreateTaskSchema>;
