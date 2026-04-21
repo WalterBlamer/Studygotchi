@@ -4,6 +4,8 @@ import './config.js'; // do not remove this line
 import { createNote, getNotes, updateNote } from './controllers/NoteController.js';
 import { createPet, getPet } from './controllers/PetController.js';
 import { createUser, getUserProfile, logIn, logOut } from './controllers/UserController.js';
+import { getAllShopItems, getShopItem } from './controllers/ShopItemController.js';
+import { createPurchase, getPurchases } from './controllers/PurchaseController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -36,6 +38,14 @@ app.use('/notes', requireAuth);
 app.get('/notes', getNotes);
 app.post('/notes', createNote);
 app.patch('/notes/:noteId', updateNote);
+
+app.use('/shopItems', requireAuth);
+app.get('/shopItems', getAllShopItems);
+app.get('/shopItems/:itemId', getShopItem);
+
+app.use('/purchases', requireAuth);
+app.get('/purchases', getPurchases);
+app.post('/purchases', createPurchase);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
