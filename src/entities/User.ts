@@ -8,6 +8,8 @@ import {
   Relation,
 } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
+import { Activity } from './Activity.js';
+import { Event } from './Event.js';
 import { Note } from './Note.js';
 import { Pet } from './Pet.js';
 import { Purchase } from './Purchase.js';
@@ -57,4 +59,13 @@ export class User {
 
   @OneToMany(() => UserAchievement, (ua) => ua.user)
   userAchievements: Relation<UserAchievement>[];
+
+  @OneToMany(() => Event, (event) => event.user)
+  events: Relation<Event>[];
+
+  @OneToMany(() => Activity, (activity) => activity.user)
+  activities: Relation<Event>[];
+
+  //@ManyToOne(() => StudyRoom, (studyroom) => studyroom.members)
+  //studyroom: Relation<StudyRoom>;
 }
