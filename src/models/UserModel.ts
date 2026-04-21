@@ -21,4 +21,8 @@ async function getUserByEmail(email: string): Promise<User | null> {
   return userRepository.findOne({ where: { email } });
 }
 
-export { addUser, getAllUsers, getUserByEmail };
+async function updateLastLogin(userId: string): Promise<void> {
+  await userRepository.update({ userId }, { lastLoginAt: new Date() });
+}
+
+export { addUser, getAllUsers, getUserByEmail, updateLastLogin };

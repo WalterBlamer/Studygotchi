@@ -1,5 +1,14 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  Relation,
+} from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
+import { User } from './User.js';
 
 @Entity()
 export class Pet {
@@ -9,14 +18,13 @@ export class Pet {
   @BeforeInsert()
   generateId(): void {
     this.petId = uuidv7();
-    this.createdAt = new Date();
   }
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
 
   @Column()
   petName: string;
-
-  @Column({ type: 'timestamptz' })
-  createdAt: Date;
 
   @Column()
   speciesId: number;
@@ -29,4 +37,7 @@ export class Pet {
 
   @Column({ default: 50 })
   happiness: number;
+
+  @ManyToOne(() => User, (user) => user.pets)
+  user: Relation<User>;
 }

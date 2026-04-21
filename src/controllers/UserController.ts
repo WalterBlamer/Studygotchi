@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
-import { addUser, getUserByEmail } from '../models/UserModel.js';
+import { addUser, getUserByEmail, updateLastLogin } from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { RegistrationSchema } from '../validators/UserValidator.js';
 
@@ -55,6 +55,9 @@ async function logIn(req: Request, res: Response): Promise<void> {
       displayName: user.displayName,
     };
     req.session.isLoggedIn = true;
+
+    // update lastLoginAt, since user has logged in
+    updateLastLogin(user.userId);
 
     res.sendStatus(200);
   } catch (err) {
