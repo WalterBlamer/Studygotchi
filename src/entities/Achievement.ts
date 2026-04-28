@@ -19,4 +19,7 @@ export class Achievement {
 
   @Column()
   pointValue: number;
+
+  @Column()
+  targetProgess: number;
 }

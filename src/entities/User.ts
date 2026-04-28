@@ -48,6 +48,10 @@ export class User {
   @Column({ default: 0 })
   points: number;
 
+  @Column({ default: 0 })
+  loginStreak: number;
+
+  // Relationships:
   @OneToMany(() => Pet, (pet) => pet.user)
   pets: Relation<Pet>[];
 
