@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryColumn,
   Relation,
@@ -13,6 +14,7 @@ import { Event } from './Event.js';
 import { Note } from './Note.js';
 import { Pet } from './Pet.js';
 import { Purchase } from './Purchase.js';
+import { StudyRoom } from './StudyRoom.js';
 import { Task } from './Task.js';
 import { UserAchievement } from './UserAchievement.js';
 
@@ -69,6 +71,6 @@ export class User {
   @OneToMany(() => Activity, (activity) => activity.user)
   activities: Relation<Event>[];
 
-  //@ManyToOne(() => StudyRoom, (studyroom) => studyroom.members)
-  //studyroom: Relation<StudyRoom>;
+  @ManyToMany(() => StudyRoom, (studyRoom) => studyRoom.members)
+  studyRoom: Relation<StudyRoom>;
 }

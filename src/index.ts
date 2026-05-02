@@ -3,9 +3,15 @@ import { requireAuth } from './authMiddleware.js';
 import './config.js'; // do not remove this line
 import { createNote, getNotes, updateNote } from './controllers/NoteController.js';
 import { createPet, getPet } from './controllers/PetController.js';
-import { createUser, getUserProfile, logIn, logOut } from './controllers/UserController.js';
-import { getAllShopItems, getShopItem } from './controllers/ShopItemController.js';
 import { createPurchase, getPurchases } from './controllers/PurchaseController.js';
+import { getAllShopItems, getShopItem } from './controllers/ShopItemController.js';
+import {
+  createStudyRoom,
+  getAllStudyRooms,
+  getStudyRoomById,
+  joinStudyRoom,
+} from './controllers/StudyRoomController.js';
+import { createUser, getUserProfile, logIn, logOut } from './controllers/UserController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
 const app: Express = express();
@@ -46,6 +52,11 @@ app.get('/shopItems/:itemId', getShopItem);
 app.use('/purchases', requireAuth);
 app.get('/purchases', getPurchases);
 app.post('/purchases', createPurchase);
+
+app.post('/rooms', createStudyRoom);
+app.get('/rooms', getAllStudyRooms);
+app.get('/rooms/:roomId', getStudyRoomById);
+app.post('/rooms/join', joinStudyRoom);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

@@ -1,4 +1,13 @@
-import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn, Relation } from 'typeorm';
+import { randomBytes } from 'node:crypto';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryColumn,
+  Relation,
+} from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import { User } from './User.js';
 
@@ -11,7 +20,7 @@ export class StudyRoom {
   generateId(): void {
     this.roomId = uuidv7();
     this.createdAt = new Date();
-    this.joinCode = 
+    this.joinCode = randomBytes(3).toString('hex').slice(0, 5).toUpperCase();
   }
 
   @Column()
@@ -23,6 +32,7 @@ export class StudyRoom {
   @Column({ unique: true })
   joinCode: string;
 
-  @OneToMany(() => User, (user) => user.studyroom)
+  @ManyToMany(() => User, (user) => user.studyRoom)
+  @JoinTable()
   members: Relation<User[]>;
 }
