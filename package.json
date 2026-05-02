@@ -16,7 +16,8 @@
     "start-once": "node --es-module-specifier-resolution=node --no-warnings ./dist/index.js",
     "lint": "eslint .",
     "sync": "npx tsx scripts/sync.ts",
-    "postinstall": "cd client && npm install --no-audit --no-fund"
+    "postinstall": "cd client && npm install --no-audit --no-fund",
+    "seed": "npx tsx src/seed.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

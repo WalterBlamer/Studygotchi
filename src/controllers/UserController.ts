@@ -1,6 +1,13 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
-import { addUser, getUserByEmail, updateLastLogin } from '../models/UserModel.js';
+import { checkAndAwardAchievements } from '../models/AchievementModel.js';
+import {
+  addPointsToUser,
+  addUser,
+  getUserByEmail,
+  updateLastLogin,
+  updateLoginStreak,
+} from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { RegistrationSchema } from '../validators/UserValidator.js';
 
@@ -56,8 +63,15 @@ async function logIn(req: Request, res: Response): Promise<void> {
     };
     req.session.isLoggedIn = true;
 
-    // update lastLoginAt, since user has logged in
+    // Update streak before lastLogin
+    const newStreak = await updateLoginStreak(user);
     updateLastLogin(user.userId);
+
+    // Check achievements
+    const pointsEarned = await checkAndAwardAchievements(user, newStreak);
+    if (pointsEarned > 0) {
+      await addPointsToUser(user.userId, pointsEarned);
+    }
 
     res.sendStatus(200);
   } catch (err) {
@@ -105,4 +119,4 @@ async function logOut(req: Request, res: Response): Promise<void> {
   res.sendStatus(204);
 }
 
-export { createUser, getUser, logIn, logOut, getUserProfile };
+export { createUser, getUser, getUserProfile, logIn, logOut };
