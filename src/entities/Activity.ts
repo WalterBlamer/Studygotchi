@@ -30,7 +30,7 @@ export class Activity {
   text: string;
 
   @Column()
-  activityHours: number;
+  hours: number;
 
   @ManyToOne(() => User, (user) => user.activities)
   user: Relation<User>;

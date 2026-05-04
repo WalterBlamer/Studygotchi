@@ -24,7 +24,7 @@ export class Event {
   updatedAt: Date;
 
   @Column({ type: 'timestamptz' })
-  eventDate: Date;
+  date: Date;
 
   @ManyToOne(() => User, (user) => user.events)
   user: Relation<User>;
