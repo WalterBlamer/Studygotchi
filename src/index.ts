@@ -56,11 +56,12 @@ app.use('/api/shopItems', requireAuth);
 app.get('/api/shopItems', getAllShopItems);
 app.get('/api/shopItems/:itemId', getShopItem);
 
-app.use('/rooms', requireAuth);
-app.post('/rooms', createStudyRoom);
-app.get('/rooms', getAllStudyRooms);
-app.get('/rooms/:studyRoomId', getStudyRoomById);
-app.post('/rooms/join', joinStudyRoom);
+app.use('/api/rooms', requireAuth);
+app.post('/api/rooms', createStudyRoom);
+app.get('/api/rooms', getAllStudyRooms);
+app.get('/api/rooms/:studyRoomId', getStudyRoomById);
+app.post('/api/rooms/join', joinStudyRoom);
+
 app.use('/api/purchases', requireAuth);
 app.get('/api/purchases', getPurchases);
 app.post('/api/purchases', createPurchase);
@@ -69,6 +70,21 @@ app.post('/api/rooms', createStudyRoom);
 app.get('/api/rooms', getAllStudyRooms);
 app.get('/api/rooms/:roomId', getStudyRoomById);
 app.post('/api/rooms/join', joinStudyRoom);
+
+app.use('/api/activities', requireAuth);
+app.post('/api/activities', createActivity);
+app.get('/api/activities', getActivities);
+app.patch('/api/activities/:activityId', updateActivity);
+
+app.use('/api/tasks', requireAuth);
+app.post('/api/tasks', createTask);
+app.get('/api/tasks', getTasks);
+app.patch('/api/tasks/:taskId', updateTask);
+
+app.use('/api/events', requireAuth);
+app.post('/api/events', createEvent);
+app.get('/api/events', getEvents);
+app.patch('/api/events/:eventId', updateEvent);
 
 // Returns the signed-in user (or 401). The frontend's auth store
 // calls this on every page load.
@@ -86,21 +102,6 @@ app.use('/api', (req, res) => {
 app.use((req, res) => {
   res.sendFile('index.html', { root: 'frontend/build' });
 });
-
-app.use('/activities', requireAuth);
-app.post('/activities', createActivity);
-app.get('/activities', getActivities);
-app.patch('/activities/:activityId', updateActivity);
-
-app.use('/tasks', requireAuth);
-app.post('/tasks', createTask);
-app.get('/tasks', getTasks);
-app.patch('/tasks/:taskId', updateTask);
-
-app.use('/events', requireAuth);
-app.post('/events', createEvent);
-app.get('/events', getEvents);
-app.patch('/events/:eventId', updateEvent);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);
