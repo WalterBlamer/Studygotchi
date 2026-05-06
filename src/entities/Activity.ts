@@ -29,7 +29,7 @@ export class Activity {
   @Column()
   text: string;
 
-  @Column()
+  @Column({ type: 'float' })
   hours: number;
 
   @ManyToOne(() => User, (user) => user.activities)

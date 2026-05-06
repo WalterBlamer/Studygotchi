@@ -1,6 +1,8 @@
 import express, { Express } from 'express';
 import { requireAuth } from './authMiddleware.js';
 import './config.js'; // do not remove this line
+import { createActivity, getActivities, updateActivity } from './controllers/ActivityController.js';
+import { createEvent, getEvents, updateEvent } from './controllers/EventController.js';
 import { createNote, getNotes, updateNote } from './controllers/NoteController.js';
 import { createPet, getPet } from './controllers/PetController.js';
 import { createPurchase, getPurchases } from './controllers/PurchaseController.js';
@@ -11,6 +13,7 @@ import {
   getStudyRoomById,
   joinStudyRoom,
 } from './controllers/StudyRoomController.js';
+import { createTask, getTasks, updateTask } from './controllers/TaskController.js';
 import { createUser, getUserProfile, logIn, logOut } from './controllers/UserController.js';
 import { sessionMiddleware } from './sessionConfig.js';
 
@@ -53,10 +56,26 @@ app.use('/purchases', requireAuth);
 app.get('/purchases', getPurchases);
 app.post('/purchases', createPurchase);
 
+app.use('/rooms', requireAuth);
 app.post('/rooms', createStudyRoom);
 app.get('/rooms', getAllStudyRooms);
-app.get('/rooms/:roomId', getStudyRoomById);
+app.get('/rooms/:studyRoomId', getStudyRoomById);
 app.post('/rooms/join', joinStudyRoom);
+
+app.use('/activities', requireAuth);
+app.post('/activities', createActivity);
+app.get('/activities', getActivities);
+app.patch('/activities/:activityId', updateActivity);
+
+app.use('/tasks', requireAuth);
+app.post('/tasks', createTask);
+app.get('/tasks', getTasks);
+app.patch('/tasks/:taskId', updateTask);
+
+app.use('/events', requireAuth);
+app.post('/events', createEvent);
+app.get('/events', getEvents);
+app.patch('/events/:eventId', updateEvent);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on http://localhost:${process.env.PORT}`);

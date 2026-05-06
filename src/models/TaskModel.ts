@@ -24,15 +24,15 @@ async function createTaskModel(
 }
 
 async function getTaskByIdModel(taskId: string): Promise<Task | null> {
-  return await taskRepository.findOne({ where: { taskId } });
+  return await taskRepository.findOne({ where: { taskId }, relations: ['user'] });
 }
 
 async function updateTaskModel(
-  taskId: string, // updates: title, text, completed are optional
+  taskId: string,
+  updates: Partial<Pick<Task, 'title' | 'text' | 'completed'>>,
 ): Promise<Task | null> {
-  const task = await getTaskByIdModel(taskId);
-  await taskRepository.update({ taskId }, { completed: !task.completed, updatedAt: new Date() });
-  return getTaskByIdModel(taskId); // return the now updated Task to send as response
+  await taskRepository.update({ taskId }, { ...updates, updatedAt: new Date() });
+  return await getTaskByIdModel(taskId); // return the now updated Task to send as response
 }
 
 export { createTaskModel, getAllTasksModel, getTaskByIdModel, updateTaskModel };

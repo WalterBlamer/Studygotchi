@@ -13,17 +13,17 @@ async function createEventModel(text: string, date: Date, user: User): Promise<E
   const newEvent = new Event();
   newEvent.text = text;
   newEvent.user = user;
-  newEvent.date = date;
+  newEvent.eventDate = date;
   return await eventRepository.save(newEvent);
 }
 
 async function getEventByIdModel(eventId: string): Promise<Event | null> {
-  return await eventRepository.findOne({ where: { eventId } });
+  return await eventRepository.findOne({ where: { eventId }, relations: ['user'] });
 }
 
 async function updateEventModel(
   eventId: string,
-  updates: Partial<Pick<Event, 'text' | 'date'>>,
+  updates: Partial<Pick<Event, 'text' | 'eventDate'>>,
 ): Promise<Event | null> {
   await eventRepository.update({ eventId }, { ...updates, updatedAt: new Date() });
   return getEventByIdModel(eventId);
