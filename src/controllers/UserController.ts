@@ -9,7 +9,7 @@ import {
   updateLoginStreak,
 } from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
-import { RegistrationSchema } from '../validators/UserValidator.js';
+import { RegistrationSchema, LoginSchema } from '../validators/UserValidator.js';
 
 async function createUser(req: Request, res: Response): Promise<void> {
   const result = RegistrationSchema.safeParse(req.body);
@@ -33,7 +33,7 @@ async function createUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
-  const result = RegistrationSchema.safeParse(req.body);
+  const result = LoginSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json(result.error.flatten());
     return;
@@ -119,4 +119,12 @@ async function logOut(req: Request, res: Response): Promise<void> {
   res.sendStatus(204);
 }
 
-export { createUser, getUser, getUserProfile, logIn, logOut };
+function getMe(req: Request, res: Response): void {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+  res.json(req.session.authenticatedUser);
+}
+
+export { createUser, getMe, getUser, getUserProfile, logIn, logOut };
