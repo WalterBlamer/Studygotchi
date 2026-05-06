@@ -1,0 +1,19 @@
+info:
+  name: get-room-by-id
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: http://localhost:3038/api/rooms/:studyRoomId
+  params:
+    - name: studyRoomId
+      value: 019dfefd-f7e1-726f-b99f-e452d54c4392
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

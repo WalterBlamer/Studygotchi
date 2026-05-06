@@ -1,0 +1,26 @@
+info:
+  name: update-task
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: http://localhost:3038/api/tasks/:taskId
+  params:
+    - name: taskId
+      value: 019dff0d-6e62-74cd-865f-4392d35ab78a
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "text": "updated task, finished paper",
+        "completed": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

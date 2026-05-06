@@ -27,7 +27,13 @@ async function createActivity(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const newActivity = await createActivityModel(title, text, hours, new Date(activityDate), user);
+    const newActivity = await createActivityModel(
+      title,
+      text,
+      hours,
+      new Date(activityDate + 'T00:00:00Z'),
+      user,
+    );
     console.log(newActivity);
     res.status(201).json(newActivity);
   } catch (err) {

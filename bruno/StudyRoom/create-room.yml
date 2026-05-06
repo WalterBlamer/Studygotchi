@@ -1,0 +1,21 @@
+info:
+  name: create-room
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3038/api/rooms
+  body:
+    type: json
+    data: |-
+      {
+        "roomName": "Finals Study Room"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

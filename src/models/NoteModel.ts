@@ -19,7 +19,7 @@ async function createNoteModel(title: string, text: string, user: User): Promise
 
 // Used for updating a note
 async function getNoteByIdModel(noteId: string): Promise<Note | null> {
-  return await noteRepository.findOne({ where: { noteId } });
+  return await noteRepository.findOne({ where: { noteId }, relations: ['user'] });
 }
 
 async function updateNoteModel(

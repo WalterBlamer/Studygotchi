@@ -66,11 +66,6 @@ app.use('/api/purchases', requireAuth);
 app.get('/api/purchases', getPurchases);
 app.post('/api/purchases', createPurchase);
 
-app.post('/api/rooms', createStudyRoom);
-app.get('/api/rooms', getAllStudyRooms);
-app.get('/api/rooms/:roomId', getStudyRoomById);
-app.post('/api/rooms/join', joinStudyRoom);
-
 app.use('/api/activities', requireAuth);
 app.post('/api/activities', createActivity);
 app.get('/api/activities', getActivities);
