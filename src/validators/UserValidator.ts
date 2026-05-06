@@ -7,4 +7,9 @@ export const RegistrationSchema = z.object({
   displayName: z.string().min(4).max(15),
 });
 
+export const LoginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8).max(64),
+});
+
 export type UserBody = z.infer<typeof RegistrationSchema>;
