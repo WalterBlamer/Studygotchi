@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 
 export default [
   {
-    ignores: ["node_modules/**", "dist/**", "eslint.config.js", 'client/**', 'jest.config.ts'],
+    ignores: ["node_modules/**", "dist/**", "eslint.config.js", 'client/**', 'jest.config.ts', 'jest.integration.config.ts'],
   },
 
   {

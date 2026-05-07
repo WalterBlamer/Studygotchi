@@ -16,7 +16,10 @@
     "start-once": "node --es-module-specifier-resolution=node --no-warnings ./dist/index.js",
     "lint": "eslint .",
     "sync": "npx tsx scripts/sync.ts",
-    "postinstall": "cd client && npm install --no-audit --no-fund"
+    "postinstall": "cd client && npm install --no-audit --no-fund",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathIgnorePatterns integration",
+    "test:watch": "npm test -- --watch",
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.integration.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -30,6 +33,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^25.6.0",
     "@types/nodemailer": "^7.0.5",
+    "@types/supertest": "^7.2.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
@@ -46,6 +50,7 @@
     "jest": "^30.3.0",
     "prettier": "^3.8.0",
     "rimraf": "^6.1.2",
+    "supertest": "^7.2.2",
     "ts-jest": "^29.4.9",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.53.1"

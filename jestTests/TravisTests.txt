@@ -1,0 +1,50 @@
+users.integration.test.ts:
+
+ npm run test:integration
+
+> test:integration
+> node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.integration.config.ts
+
+(node:15040) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15040) DeprecationWarning: Calling client.query() when the client is already executing a query is deprecated and will be removed in pg@9.0. Use async/await or an external async flow control mechanism instead.
+(node:15040) Warning: `--localstorage-file` was provided without a valid path
+ PASS  src/routes/users.integration.test.ts (5.859 s)
+  POST /api/users — register
+    √ returns 400 with an invalid email (132 ms)
+    √ returns 400 with a password that is too short (92 ms)
+  GET /api/me
+    √ returns 401 when not logged in (191 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        6.12 s, estimated 7 s
+Ran all test suites.
+
+
+UserValidator.test.ts, PurchaseValidator.test.ts, and PetValidator.test.ts:
+
+npm test
+
+> test
+> node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathIgnorePatterns integration
+
+(node:15552) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ PASS  src/validators/UserValidator.test.ts
+(node:15552) Warning: `--localstorage-file` was provided without a valid path
+(node:11028) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11028) Warning: `--localstorage-file` was provided without a valid path
+ PASS  src/validators/PurchaseValidator.test.ts
+(node:24284) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24284) Warning: `--localstorage-file` was provided without a valid path
+ PASS  src/validators/PetValidator.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        4.223 s
+Ran all test suites.
