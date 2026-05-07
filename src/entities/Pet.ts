@@ -29,7 +29,7 @@ export class Pet {
   @Column()
   speciesId: number;
 
-  @Column({ default: 1 })
+  @Column({ default: 0 })
   outfitId: number;
 
   @Column({ default: 1 })

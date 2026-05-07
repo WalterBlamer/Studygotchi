@@ -3,7 +3,12 @@
 </script>
 
 <div class="pet-container">
-  <img class="pet-image" src={`/pets/species-${pet.speciesId}.png`} alt={pet.petName} />
+  <img
+    class="pet-image"
+    src={`/pets/outfits/species-${pet.speciesId}-outfit-${pet.outfitId}.png`}
+    alt={pet.petName}
+  />
+
   <p>{pet.petName}</p>
 </div>
 
