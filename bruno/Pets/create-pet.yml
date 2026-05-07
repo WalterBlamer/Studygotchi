@@ -1,0 +1,24 @@
+info:
+  name: create-pet
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3038/api/pets
+  body:
+    type: json
+    data: |-
+      {
+        "petName": "Bobby",
+        "speciesId": 1,
+        "outfitId": 2,
+        "colorSchemeId": 3
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

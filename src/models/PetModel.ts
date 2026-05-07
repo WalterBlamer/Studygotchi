@@ -1,5 +1,6 @@
 import { AppDataSource } from '../dataSource.js';
 import { Pet } from '../entities/Pet.js';
+import { User } from '../entities/User.js';
 
 const petRepository = AppDataSource.getRepository(Pet);
 
@@ -8,12 +9,14 @@ async function addPet(
   outfitId: number,
   colorSchemeId: number,
   speciesId: number,
+  user: User,
 ): Promise<Pet> {
   const newPet = new Pet();
   newPet.petName = petName;
   newPet.outfitId = outfitId;
   newPet.colorSchemeId = colorSchemeId;
   newPet.speciesId = speciesId;
+  newPet.user = user; //attach pet to user
   // petId generated automatically by @BeforeInsert
   // happiness defaults to 50
   // createdAt defaults to timestamptz

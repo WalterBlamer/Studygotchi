@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { addPet, getPetById } from '../models/PetModel.js';
+import { getUserByEmail } from '../models/UserModel.js';
 import { parseDatabaseError } from '../utils/db-utils.js';
 import { CreatePetSchema } from '../validators/PetValidator.js';
 
@@ -11,11 +12,19 @@ async function createPet(req: Request, res: Response): Promise<void> {
   }
 
   const { petName, outfitId, colorSchemeId, speciesId } = result.data;
+  const { email } = req.session.authenticatedUser;
 
   try {
-    const newPet = await addPet(petName, outfitId, colorSchemeId, speciesId);
+    // get user to access their points
+    const user = await getUserByEmail(email);
+    if (!user) {
+      res.sendStatus(404);
+      return;
+    }
+
+    const newPet = await addPet(petName, outfitId, colorSchemeId, speciesId, user);
     console.log(newPet);
-    res.sendStatus(201);
+    res.status(201).json({ pet: newPet });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
