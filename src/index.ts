@@ -1,5 +1,5 @@
 import { createApp } from './app.js';
-import './config.js';
+
 import { AppDataSource } from './dataSource.js';
 
 await AppDataSource.initialize();
