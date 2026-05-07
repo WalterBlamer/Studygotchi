@@ -116,6 +116,3 @@ frontend/build
 frontendGuide.md
 
 ca-certificate.crt
-src/testHelpers/setup.ts
-src/dataSource.ts
-src/sessionConfig.ts
