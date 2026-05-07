@@ -1,9 +1,64 @@
-@import '@picocss/pico/css/pico.min.css';
-
+/* app.css */
 :root {
-  --pico-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg: #f7f6f2;
+  --surface: #eeecea;
+  --text: #1a1a1a;
+  --muted: #888580;
+  --accent: #4a7fb5;
+  --danger: #c0392b;
+  --green: #2e7d4f;
+  --radius: 6px;
+  --font: 'Georgia', serif;
 }
 
-main.container {
-  padding-block: 2rem;
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
 }
+
+button {
+  font-family: var(--font);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+input, textarea {
+  font-family: var(--font);
+  font-size: 0.9rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 0.6rem 0.8rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+input:focus, textarea:focus { border-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+
+.btn {
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  padding: 0.6rem 1.1rem;
+  background: white;
+  color: var(--text);
+  transition: background 0.15s;
+}
+.btn:hover { background: var(--surface); }
+.btn-primary { background: var(--accent); color: white; border-color: var(--accent); font-weight: 600; }
+.btn-primary:hover { background: #3d6fa0; border-color: #3d6fa0; }
+.btn-ghost   { background: none; border: none; color: var(--muted); padding: 0; }
+.btn-ghost:hover { color: var(--text); }
+.btn-danger  { background: none; border: none; color: var(--danger); padding: 0; }
+
+.page { min-height: 100vh; padding: 1.25rem; padding-bottom: 5rem; max-width: 400px; margin: 0 auto; }
+.back { background: none; border: none; color: var(--muted); font-size: 0.85rem; padding: 0; margin-bottom: 2rem; display: block; cursor: pointer; }
+.back:hover { color: var(--text); }
+.label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.error { color: var(--danger); font-size: 0.8rem; margin: 0; }

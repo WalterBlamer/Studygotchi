@@ -27,7 +27,7 @@
     // Login sets a session cookie. Call auth.refresh() so the store
     // fetches the user from GET /api/me
     await auth.refresh();
-    goto('/');
+    goto('/home');
   }
 </script>
 
