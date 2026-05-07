@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import { requireAuth } from './authMiddleware.js';
+import './config.js';
 import { createActivity, getActivities, updateActivity } from './controllers/ActivityController.js';
 import { createEvent, getEvents, updateEvent } from './controllers/EventController.js';
 import { createNote, getNotes, updateNote } from './controllers/NoteController.js';
