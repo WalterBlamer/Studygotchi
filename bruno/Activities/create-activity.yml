@@ -1,0 +1,24 @@
+info:
+  name: create-activity
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3038/api/activities
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Humane Society",
+        "text": "Cleaned, sorted, etc.",
+        "hours": 2.5,
+        "activityDate": "2026-05-06"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
