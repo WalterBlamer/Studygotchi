@@ -1,9 +1,5 @@
 import { createApp } from './app.js';
 
-import { AppDataSource } from './dataSource.js';
-
-await AppDataSource.initialize();
-
 const app = createApp();
 
 app.listen(process.env.PORT, () => {
